@@ -22,7 +22,7 @@ export const uploadGalleryImage = async (req, res) => {
     });
 
     const image = await Gallery.create({
-      title: req.body.title || "",
+      
       category: req.body.category || "",
       imageUrl: uploaded.secure_url,
     });
@@ -58,7 +58,7 @@ export const updateGalleryImage = async (req, res) => {
     }
 
     // Update text fields
-    image.title = req.body.title || image.title;
+    
     image.category = req.body.category || image.category;
 
     // If new image uploaded → upload to Cloudinary
