@@ -13,7 +13,11 @@ connectDB();
 const app = express();
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://your-frontend-domain.vercel.app'], // Replace with your actual hosted frontend domain
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
