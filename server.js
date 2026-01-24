@@ -14,7 +14,9 @@ const app = express();
 
 // Middlewares
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://your-frontend-domain.vercel.app'], // Replace with your actual hosted frontend domain
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://photography-revu.vercel.app/'] // Production frontend
+    : ['http://localhost:5173', 'http://localhost:3000'], // Development
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -24,12 +26,11 @@ app.use(express.json());
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/events", eventRoutes);
 
-// Health check route (VERY IMPORTANT for Vercel)
+// Health check route
 app.get("/", (req, res) => {
   res.send("🚀 Photography Backend is running successfully!");
 });
 
-// Server start
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
