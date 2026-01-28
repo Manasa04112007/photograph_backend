@@ -12,6 +12,7 @@ const router = express.Router();
 // GET all images
 router.get("/", getGalleryImages);
 
+
 // UPLOAD image
 router.post("/upload", upload.single("image"), uploadGalleryImage);
 

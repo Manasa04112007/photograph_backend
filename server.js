@@ -12,21 +12,27 @@ connectDB();
 
 const app = express();
 
-// Middlewares
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://photography-revu.vercel.app/'] // Production frontend
-    : ['http://localhost:5173', 'http://localhost:3000'], // Development
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// ✅ FIXED CORS CONFIG
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://photography-revu.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+
 app.use(express.json());
 
 // Routes
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/events", eventRoutes);
 
-// Health check route
+// Health check
 app.get("/", (req, res) => {
   res.send("🚀 Photography Backend is running successfully!");
 });
@@ -36,8 +42,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log("====================================");
   console.log("🚀 Photography Backend Started");
-  console.log(`🌍 Environment : ${process.env.NODE_ENV || "development"}`);
-  console.log(`📡 Server URL  : http://localhost:${PORT}`);
+  console.log(`📡 Server running on port ${PORT}`);
   console.log("====================================");
 });
 
